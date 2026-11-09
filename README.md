@@ -14,10 +14,33 @@ El stack se compone de tres servicios conectados en la misma red interna de Dock
 Tanto Nginx como WordPress comparten el volumen wp_data para tener acceso simultáneo a los ficheros del CMS.
 
 ## Despliegue
-1. Clona este repositorio (rama a2-cms).
+1. Clona este repositorio (rama 
+a2-cms).
 2. Crea un archivo .env en la raíz basándote en la estructura de .env.example y define las contraseñas seguras.
 3. Levanta el stack en segundo plano:
    \\\ash
    docker compose up -d
    \\\
 4. Accede al instalador web desde el navegador en \http://localhost:8080\.
+
+
+# PRÁCTICA SESIÓN 13: Despliegue de WordPress con Nginx y MariaDB en Docker
+
+Proyecto evaluable correspondiente al Resultado de Aprendizaje 2 (RA2) del módulo Implantación de Aplicaciones Web (IAW). Implementa una arquitectura multicontenedor desacoplada para WordPress utilizando Nginx como proxy inverso web y MariaDB como motor de base de datos relacional.
+
+---
+
+## Requisitos previos
+
+- **Docker Desktop** (con Docker Compose v2 y backend WSL2 habilitado).
+- **Git** para control de versiones.
+- Terminal con soporte para peticiones HTTP (`curl`).
+
+---
+
+## Despliegue local desde cero
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/rendechen14/ra2-cms.git](https://github.com/rendechen14/ra2-cms.git) proyecto
+   cd proyecto
