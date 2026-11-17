@@ -1,3 +1,8 @@
 .env
 .env.local
 *.log
+backups/
+exportaciones/
+logs/
+informes/
+wp.ps1
