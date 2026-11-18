@@ -134,3 +134,32 @@ Para consultar los informes detallados elaborados durante las sesiones evaluable
 * [Documento de Personalización del Gestor](docs/personalizacion.md)
 * [Documento de Medidas de Seguridad y Endurecimiento](docs/seguridad.md)
 * [Documento de Pruebas de Funcionamiento y Rendimiento](docs/pruebas.md)
+
+
+---
+
+## 7. Copias de Seguridad y Restauración (RA3 · Práctica 2)
+
+El proyecto cuenta con scripts automatizados en la carpeta `scripts/` para garantizar la persistencia y recuperación ante desastres:
+
+### Realizar una copia de seguridad:
+Ejecuta el script desde la raíz del repositorio:
+```bash
+./scripts/backup.sh
+```
+* Genera dos ficheros comprimidos con marca de tiempo en la carpeta `backups/`:
+  - `db_AAAAMMDD-HHMMSS.sql.gz`: Volcado SQL íntegro de la base de datos MariaDB.
+  - `wp-content_AAAAMMDD-HHMMSS.tar.gz`: Archivo comprimido con temas, plugins y ficheros multimedia.
+* Aplica una política de rotación automática conservando las últimas 7 copias y eliminando las más antiguas.
+
+### Restaurar una copia de seguridad:
+1. Para listar todas las copias disponibles:
+   ```bash
+   ./scripts/restore.sh
+   ```
+2. Para restaurar una copia específica pasando su identificador temporal:
+   ```bash
+   ./scripts/restore.sh AAAAMMDD-HHMMSS
+   ```
+* Solicita confirmación explícita escribiendo `SI` antes de sobrescribir.
+* Inyecta el volcado SQL en MariaDB y descomprime `wp-content` reasignando la propiedad al usuario `www-data:www-data`.

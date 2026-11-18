@@ -74,3 +74,31 @@
 
 ### 2.4. Minimización de la Superficie de Ataque
 * Siguiendo el principio de menor exposición, se procedió a la desactivación y eliminación definitiva de los plugins preinstalados **`akismet`** y **`hello`** (Hello Dolly). Al eliminar el código inactivo del volumen `wp_data`, se anulan potenciales vectores de explotación por vulnerabilidades de software no mantenido.
+
+
+---
+
+## 3. Sección 3: Copias de Seguridad y Prueba de Restauración (Práctica 2)
+
+### 3.1. Prueba de Desastre Controlado y Recuperación
+1. **Generación de copia de seguridad previa:**  
+   Se ejecutó el script `./scripts/backup.sh`, el cual comprobó el estado de los servicios `db` y `wordpress`, realizó el volcado comprimido de la base de datos MariaDB (`db_AAAAMMDD-HHMMSS.sql.gz`) y el empaquetado del directorio multimedia y plugins (`wp-content_AAAAMMDD-HHMMSS.tar.gz`) dentro del directorio local `backups/`.
+2. **Inducción del desastre controlado:**  
+   * Se eliminó de manera irreversible una entrada del blog saltándose la papelera mediante el comando:
+     ```bash
+     ./wp post delete <ID> --force
+     ```
+   * Se eliminó el módulo de almacenamiento de mensajes:
+     ```bash
+     ./wp plugin delete flamingo
+     ```
+   * Se verificó visual y mediante `./wp post list` y `./wp plugin list` que los elementos habían desaparecido por completo del sistema.
+3. **Ejecución del script de restauración:**  
+   * Se consultaron las copias disponibles ejecutando `./scripts/restore.sh`.
+   * Se procedió a la restauración pasando la marca temporal de la copia y escribiendo la confirmación explícita `SI`:
+     ```bash
+     ./scripts/restore.sh AAAAMMDD-HHMMSS
+     ```
+4. **Verificación tras la restauración:**  
+   * Tras la importación del volcado SQL y la descompresión de `wp-content`, la entrada eliminada reapareció inmediatamente en `./wp post list`.
+   * El plugin `flamingo` volvió a figurar en estado activo en `./wp plugin list` junto con todos los mensajes entrantes registrados previamente, acreditando el éxito total de la restauración.
